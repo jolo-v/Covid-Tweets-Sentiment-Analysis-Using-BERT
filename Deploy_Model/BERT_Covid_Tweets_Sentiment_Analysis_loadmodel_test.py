@@ -6,11 +6,7 @@ Created on Mon Nov 29 12:59:24 2021
 """
 
 import pandas as pd
-import numpy as np
-import scipy
-import datetime
 import tensorflow as tf
-from tqdm import tqdm
 import bert
 from bert import BertModelLayer
 from bert.loader import StockBertConfig, map_stock_config_to_params, load_stock_weights
