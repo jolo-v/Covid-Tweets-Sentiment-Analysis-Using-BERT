@@ -7,8 +7,6 @@ Created on Thu Apr  7 11:59:21 2022
 
 import pandas as pd
 import numpy as np
-import scipy
-import datetime
 import tensorflow as tf
 from tqdm import tqdm
 import bert
