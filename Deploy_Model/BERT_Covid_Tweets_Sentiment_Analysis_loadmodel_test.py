@@ -12,7 +12,7 @@ from bert import BertModelLayer
 from bert.loader import StockBertConfig, map_stock_config_to_params, load_stock_weights
 from bert.tokenization.bert_tokenization import FullTokenizer
 import os
-from BERT_NLP_practice import TextData
+from BERT_Covid_Tweets_Sentiment_Analysis import TextData
 
 #Read data
 bert_tf_testdata = pd.read_csv('Bert_test_data.csv')
