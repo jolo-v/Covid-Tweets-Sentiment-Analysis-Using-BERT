@@ -19,21 +19,16 @@ import os
 class TextData:
 
   def __init__(self, data, DATA_COLUMN, LABEL_COLUMN, tokenizer, classes, max_seq_len):
-    #self.data = data
-    #self.train = train
-    #self.test = test
     self.DATA_COLUMN = DATA_COLUMN
     self.LABEL_COLUMN = LABEL_COLUMN
     self.tokenizer = tokenizer
     self.max_seq_len = max_seq_len
     self.classes = classes
     
-    #((self.train_x, self.train_y), (self.test_x, self.test_y)) = map(self._prepare, [train, test])
     self.data_x, self.data_y = self._prepare(data)
 
     print("max seq_len", self.max_seq_len)
     self.max_seq_len = min(self.max_seq_len, max_seq_len)
-    #self.train_x, self.test_x = map(self._pad, [self.train_x, self.test_x])
     self.data_x = self._pad(self.data_x)
 
   def _prepare(self, df):
@@ -103,7 +98,6 @@ def main():
       bert_params = bert.params_from_pretrained_ckpt(model_dir)
       bert_params.adapter_size = None
       l_bert = BertModelLayer.from_params(bert_params, name="bert")
-      #l_bert.trainable = False
             
       input_ids = tf.keras.layers.Input(shape=(max_seq_len, ), dtype='int32', name="input_ids")
       bert_output = l_bert(input_ids)
@@ -123,7 +117,7 @@ def main():
             
       return model
 
-    ##Let's train
+    ##Let's train the model
     #data
     bert_tf_traindata = pd.concat([X_train,y_train],axis=1)
     bert_tf_testdata = pd.concat([X_test,y_test],axis=1)
