@@ -130,7 +130,7 @@ def main():
     model.summary()
     model.compile(
       optimizer=tf.keras.optimizers.Adam(1e-5),
-      loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
+      loss=tf.keras.losses.SparseCategoricalCrossentropy(),
       metrics=[tf.keras.metrics.SparseCategoricalAccuracy(name="acc")]
     )
     
