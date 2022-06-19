@@ -3,4 +3,4 @@ Performing a sentiment analysis of Covid-related tweets using BERT. Also saves t
 
 After installing the requirements or confirming that these are already installed (tensorflow==2.5 or lower, bert-for-tf2), and then cloning the repo, the code could be run. Running the model training code will result in the creation of a tensorflow model object saved in a folder called "BERT_covid". This new folder must be in the same directory as the deployment code.
 
-Model test accuracy is at 91.7%.
+Model test accuracy is at 91.4%.
