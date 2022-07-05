@@ -55,13 +55,17 @@ class TextData:
 
 def main():
     #Read dataset
-    corona_raw = pd.read_csv('Corona_NLP_train.csv',encoding='ISO-8859-1')
+    corona_raw = pd.read_csv('Corona_NLP_train.csv',encoding='ISO-8859-1') 
+    
     #Explore
     corona_raw.groupby('Sentiment').size()
+    
     #Drop unnecessary columns
     corona = corona_raw[['OriginalTweet','Sentiment']]
+    
     #Drop na
     corona = corona.dropna(how='any')#no na
+    
     #Split into train and test
     from sklearn.model_selection import train_test_split as tts
     X_train,X_test,y_train,y_test = tts(corona['OriginalTweet'],corona['Sentiment'],
@@ -74,7 +78,8 @@ def main():
     X_test.reset_index(level=None,inplace=True,drop=True)
     y_test = pd.DataFrame(y_test,columns=['Sentiment'])
     y_test.reset_index(level=None,inplace=True,drop=True)
-    #Collapse categories for experimentation
+    
+    #Collapse categories
     sentiment_dict = {'Extremely Positive':'Positive','Positive':'Positive','Neutral':'Neutral',
                       'Extremely Negative':'Negative','Negative':'Negative'}
     y_train['Sentiment'] = y_train['Sentiment'].map(sentiment_dict)
@@ -84,6 +89,7 @@ def main():
     model_name = "uncased_L-12_H-768_A-12"
     model_dir = bert.fetch_google_bert_model(model_name, ".models")
     model_ckpt = os.path.join(model_dir, "bert_model.ckpt")
+    
     #Define tokenizer
     tokenizer = FullTokenizer(
       vocab_file = os.path.join(model_dir, "vocab.txt")
@@ -125,6 +131,7 @@ def main():
     train_data = TextData(data=bert_tf_traindata,DATA_COLUMN='OriginalTweet',LABEL_COLUMN='Sentiment',
                     tokenizer = tokenizer, classes=classes, max_seq_len=128)
     train_data.data_x.shape
+    
     #model
     model = create_model(train_data.max_seq_len, classes, model_ckpt)
     model.summary()
@@ -142,9 +149,11 @@ def main():
       shuffle=True,
       epochs=4,
     )
+    
     #predict and evaluate train data
     from sklearn.metrics import accuracy_score
     accuracy_score(y_true=train_data.data_y,y_pred=model.predict(train_data.data_x))
+    
     #predict and evaluate test data
     test_data = TextData(data=bert_tf_testdata,DATA_COLUMN='OriginalTweet',LABEL_COLUMN='Sentiment',
                     tokenizer = tokenizer, classes=classes, max_seq_len=128)
